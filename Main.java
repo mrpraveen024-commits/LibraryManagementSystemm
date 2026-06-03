@@ -1,18 +1,21 @@
 import java.util.Scanner;
 
-public class main {
-
-    
-}class Main {
+public class Main {
 
     static String[] books = new String[10];
     static boolean[] issued = new boolean[10];
     static int count = 0;
 
     public static void addBook(String bookName) {
+        if (count >= books.length) {
+            System.out.println("Library is full!");
+            return;
+        }
+
         books[count] = bookName;
         issued[count] = false;
         count++;
+
         System.out.println("Book Added Successfully!");
     }
 
@@ -30,30 +33,27 @@ public class main {
     }
 
     public static void searchBook(String bookName) {
-        boolean found = false;
-
         for (int i = 0; i < count; i++) {
             if (books[i].equalsIgnoreCase(bookName)) {
                 System.out.println("Book Found: " + books[i]);
-                found = true;
-                break;
+                return;
             }
         }
 
-        if (!found) {
-            System.out.println("Book Not Found!");
-        }
+        System.out.println("Book Not Found!");
     }
 
     public static void issueBook(String bookName) {
         for (int i = 0; i < count; i++) {
             if (books[i].equalsIgnoreCase(bookName)) {
-                if (!issued[i]) {
+
+                if (issued[i]) {
+                    System.out.println("Book Already Issued!");
+                } else {
                     issued[i] = true;
                     System.out.println("Book Issued Successfully!");
-                } else {
-                    System.out.println("Book Already Issued!");
                 }
+
                 return;
             }
         }
@@ -64,12 +64,14 @@ public class main {
     public static void returnBook(String bookName) {
         for (int i = 0; i < count; i++) {
             if (books[i].equalsIgnoreCase(bookName)) {
+
                 if (issued[i]) {
                     issued[i] = false;
                     System.out.println("Book Returned Successfully!");
                 } else {
                     System.out.println("Book Was Not Issued!");
                 }
+
                 return;
             }
         }
@@ -99,8 +101,8 @@ public class main {
 
                 case 1:
                     System.out.print("Enter Book Name: ");
-                    String addBook = sc.nextLine();
-                    addBook(addBook);
+                    String bookToAdd = sc.nextLine();
+                    addBook(bookToAdd);
                     break;
 
                 case 2:
@@ -109,26 +111,26 @@ public class main {
 
                 case 3:
                     System.out.print("Enter Book Name: ");
-                    String searchBook = sc.nextLine();
-                    searchBook(searchBook);
+                    String bookToSearch = sc.nextLine();
+                    searchBook(bookToSearch);
                     break;
 
                 case 4:
                     System.out.print("Enter Book Name: ");
-                    String issueBook = sc.nextLine();
-                    issueBook(issueBook);
+                    String bookToIssue = sc.nextLine();
+                    issueBook(bookToIssue);
                     break;
 
                 case 5:
                     System.out.print("Enter Book Name: ");
-                    String returnBook = sc.nextLine();
-                    returnBook(returnBook);
+                    String bookToReturn = sc.nextLine();
+                    returnBook(bookToReturn);
                     break;
 
                 case 6:
                     System.out.println("Thank You!");
                     sc.close();
-                    System.exit(0);
+                    return;
 
                 default:
                     System.out.println("Invalid Choice!");
